@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 //contains dynamic frag + backstack of frags + data passing in frags
@@ -20,16 +21,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView txtMessages,txtStatus,txtCalls;
+        Button btnMessages,btnStatus,btnCalls;
 
-        txtMessages=findViewById(R.id.txtMessages);
-        txtStatus=findViewById(R.id.txtStatus);
-        txtCalls=findViewById(R.id.txtCalls);
+        btnMessages=findViewById(R.id.btnMessages);
+        btnStatus=findViewById(R.id.btnStatus);
+        btnCalls=findViewById(R.id.btnCalls);
 
         //default frag
         loadFrag(new MessagesFragment(),0);
 
-        txtMessages.setOnClickListener(new View.OnClickListener() {
+        btnMessages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        txtStatus.setOnClickListener(new View.OnClickListener() {
+        btnStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        txtCalls.setOnClickListener(new View.OnClickListener() {
+        btnCalls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -56,21 +57,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //flag 0 for add , 1 for replace , 2 for remove
+    //flag 0 for add , 1 for replace
     public void loadFrag(Fragment fragment_name, int flag) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        Bundle bundle=new Bundle();
-        bundle.putString("Key_name","Asus");
-        bundle.putInt("Key_number",7060);
-        fragment_name.setArguments(bundle);
-
         if (flag == 0) {
             ft.add(R.id.FL, fragment_name);
 
-            //inclusive=1
-            //0=exclusive then multiple copies of root frag will remain their
             fm.popBackStack(Root_Frag,FragmentManager.POP_BACK_STACK_INCLUSIVE);
             ft.addToBackStack(Root_Frag);
 
@@ -79,13 +73,8 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.FL, fragment_name);
             ft.addToBackStack(null);
         }
-//            ft.remove(R.id.FL, fragment_name);
 
         ft.commit();
     }
 
-    @SuppressLint("LongLogTag")
-    public void main2messages(){
-        Log.d("Method of Main Activity in ","Messages Fragement");
-    }
 }
